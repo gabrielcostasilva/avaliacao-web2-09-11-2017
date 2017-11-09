@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="areaCentral">
+            <h:form>
+                <p:panel header="Gerenciar Produtos">
+
+                    <h:panelGrid columns="2">
+                        <p:outputLabel for="entradaNome" value="Nome"></p:outputLabel>
+                        <p:inputText id="entradaNome" value="#{produtoBean.nome}"></p:inputText>
+
+                        <p:outputLabel for="entradaValor" value="Valor"></p:outputLabel>
+                        <p:inputText id="entradaValor" value="#{produtoBean.valor}"></p:inputText>
+
+                        <p:outputLabel for="entradaTipo" value="Tipo" ></p:outputLabel>
+                        <p:selectOneRadio id="entradaTipo" value="#{produtoBean.tipo}">
+                            <f:selectItem itemLabel="Bebida" itemValue="Bebida" ></f:selectItem>
+                            <f:selectItem itemLabel="Alimento" itemValue="Alimento" ></f:selectItem>
+                        </p:selectOneRadio>
+
+                    </h:panelGrid>
+
+                    <p:dataTable value="#{produtoBean.listar()}" var="produto" >
+                        <p:column headerText="Nome">
+                            <h:outputText value="#{produto.nome}" />
+                        </p:column>
+
+                        <p:column headerText="Valor">
+                            <h:outputText value="#{produto.valor}" />
+                        </p:column>
+
+                        <p:column headerText="Tipo">
+                            <h:outputText value="#{produto.tipo}" />
+                        </p:column>
+                    </p:dataTable>
+
+                    <h:panelGrid columns="2">
+                        <p:commandButton value="Cancelar" ajax="false" action="irPaginaPrincipal"></p:commandButton>
+                        <p:commandButton value="Criar" ajax="false" action="#{produtoBean.criar()}"></p:commandButton>
+                    </h:panelGrid>
+
+                </p:panel>
+            </h:form>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>
+
