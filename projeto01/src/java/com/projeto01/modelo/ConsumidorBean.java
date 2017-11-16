@@ -1,21 +1,17 @@
 package com.projeto01.modelo;
 
 import com.projeto01.entidade.Consumidor;
+import com.projeto01.negocio.ConsumidorBusiness;
 import java.util.List;
-import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.UserTransaction;
+
 
 @ManagedBean
 public class ConsumidorBean {
     
-    @PersistenceContext
-    private EntityManager em;
-
-    @Resource
-    private UserTransaction utx;
+    @EJB
+    private ConsumidorBusiness consumidorBusiness;
 
     public String criar() {
         Consumidor c = new Consumidor();
@@ -24,9 +20,8 @@ public class ConsumidorBean {
         c.setSenha(this.getSenha());
         
         try {
-            utx.begin();
-            em.persist(c);
-            utx.commit();
+            consumidorBusiness.criar(c);
+            
             return "irGerenciarConsumidores";
 
         } catch (Exception e) {
@@ -35,7 +30,7 @@ public class ConsumidorBean {
     }
 
     public List<Consumidor> listar() {
-        return em.createQuery("SELECT c FROM Consumidor c").getResultList();
+        return consumidorBusiness.listar();
     }
 
     

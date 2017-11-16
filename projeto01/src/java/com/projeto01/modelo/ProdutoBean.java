@@ -1,8 +1,10 @@
 package com.projeto01.modelo;
 
 import com.projeto01.entidade.Produto;
+import com.projeto01.negocio.ProdutoBusiness;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,12 +13,9 @@ import javax.transaction.UserTransaction;
 @ManagedBean
 public class ProdutoBean {
     
-    @PersistenceContext
-    private EntityManager em;
-    
-    @Resource
-    private UserTransaction utx;
-    
+    @EJB
+    private ProdutoBusiness produtoBusiness;
+        
     public String criar() {
         Produto p = new Produto();
         p.setNome(this.getNome());
@@ -24,9 +23,7 @@ public class ProdutoBean {
         p.setTipo(this.getTipo());
         
         try {
-            utx.begin();
-            em.persist(p);
-            utx.commit();
+            produtoBusiness.criar(p);
             return "irGerenciarProdutos";
             
         } catch (Exception e) {
@@ -35,7 +32,7 @@ public class ProdutoBean {
     }
     
     public List<Produto> listar() {
-        return em.createQuery("SELECT p FROM Produto p").getResultList();
+        return produtoBusiness.listar();
     }
     
     
